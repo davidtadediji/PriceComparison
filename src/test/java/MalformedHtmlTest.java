@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
  *
  * @author David
  */
-public class MalformedHtmlErrorHandlingTest {
+public class MalformedHtmlTest {
 
     @Test
-    void testMalformedHtmlErrorHandling() {
+    void testMalformedHtml() {
         Scraper1 scraper1 = new Scraper1();
         Scraper2 scraper2 = new Scraper2();
 
