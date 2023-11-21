@@ -8,6 +8,10 @@
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    
+        <mapping class="com.mycompany.pricecomparison.scraper.Product"/>
+   
     </session-factory>
+    
 </hibernate-configuration>
 

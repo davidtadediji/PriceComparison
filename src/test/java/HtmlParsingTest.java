@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-import com.mycompany.pricecomparison.scraper.*;
+import pricecomparison.Product;
+import pricecomparison.Scraper;
+import pricecomparison.Scraper2;
+import pricecomparison.Scraper1;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
