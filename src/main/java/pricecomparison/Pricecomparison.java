@@ -11,7 +11,7 @@ package pricecomparison;
  *
  * @author David
  */
-@SpringBootApplication
+
 public class Pricecomparison {
 
     public static void main(String[] args) {
