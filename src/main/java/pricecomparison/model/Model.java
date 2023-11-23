@@ -40,6 +40,22 @@ public class Model implements Serializable {
     public Model() {
     }
 
+    public Model(Integer id) {
+        this.id = id;
+    }
+
+    public Model(Integer id, String name, String description, String manufacturer, String imageUrl, Timestamp createdAt, String slug, String properties, List<ModelVariation> variations) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.manufacturer = manufacturer;
+        this.imageUrl = imageUrl;
+        this.createdAt = createdAt;
+        this.slug = slug;
+        this.properties = properties;
+        this.variations = variations;
+    }
+
     public Integer getId() {
         return id;
     }

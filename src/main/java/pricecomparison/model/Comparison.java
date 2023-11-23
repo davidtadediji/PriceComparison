@@ -38,6 +38,23 @@ public class Comparison {
 
     public Comparison() {
     }
+    
+    public Comparison(Integer id) {
+        this.id = id;
+    }
+
+    public Comparison(Integer id, String url, Integer price, String currency, String store, String storeLogoUrl, Timestamp lastUpdated, Model model, ModelVariation modelVariation) {
+        this.id = id;
+        this.url = url;
+        this.price = price;
+        this.currency = currency;
+        this.store = store;
+        this.storeLogoUrl = storeLogoUrl;
+        this.lastUpdated = lastUpdated;
+        this.model = model;
+        this.modelVariation = modelVariation;
+    }
+
 
     public Integer getId() {
         return id;

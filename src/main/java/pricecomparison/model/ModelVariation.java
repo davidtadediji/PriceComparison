@@ -31,6 +31,17 @@ public class ModelVariation {
     public ModelVariation() {
     }
 
+    public ModelVariation(Integer id) {
+        this.id = id;
+    }
+
+    public ModelVariation(Integer id, Model model, String variationName, String variationValue) {
+        this.id = id;
+        this.model = model;
+        this.variationName = variationName;
+        this.variationValue = variationValue;
+    }
+
     public Integer getId() {
         return id;
     }
