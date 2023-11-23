@@ -43,6 +43,8 @@ public class Model implements Serializable {
     public Model(Integer id) {
         this.id = id;
     }
+    
+    
 
     public Model(Integer id, String name, String description, String manufacturer, String imageUrl, Timestamp createdAt, String slug, String properties, List<ModelVariation> variations) {
         this.id = id;

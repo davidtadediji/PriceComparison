@@ -4,6 +4,7 @@
  */
 package pricecomparison.util;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -22,7 +23,7 @@ public class HibernateUtil {
             registry.applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(registry.build());
             
-        }catch(Throwable ex){
+        }catch(HibernateException ex){
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
