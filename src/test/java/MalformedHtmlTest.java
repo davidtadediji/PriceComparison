@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-import pricecomparison.Scraper1;
-import pricecomparison.Scraper2;
+import pricecomparison.scraper.Scraper1;
+import pricecomparison.scraper.Scraper2;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

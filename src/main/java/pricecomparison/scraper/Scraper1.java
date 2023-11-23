@@ -2,15 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pricecomparison;
+package pricecomparison.scraper;
 
+import pricecomparison.model.Product;
 import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author David
  */
-public class Scraper2 implements Scraper {
+public class Scraper1 implements Scraper {
 
     public String extractProductTitle(String html) {
         // Initial implementation
@@ -91,6 +92,6 @@ public Product extractProductDetails(String html) {
 
     @Override
     public String getName() {
-        return "Alixpress";
+        return "Amazon";
     }
 }

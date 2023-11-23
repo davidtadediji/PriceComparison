@@ -11,10 +11,10 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import pricecomparison.Scraper;
-import pricecomparison.Scraper1;
-import pricecomparison.Scraper2;
-import pricecomparison.ScraperResponse;
+import pricecomparison.scraper.Scraper;
+import pricecomparison.scraper.Scraper1;
+import pricecomparison.scraper.Scraper2;
+import pricecomparison.scraper.ScraperResponse;
 
 
 /**
