@@ -4,14 +4,15 @@
  */
 package pricecomparison.scraper;
 
-import pricecomparison.model.Product;
+import pricecomparison.dto.ScraperResponse;
+import pricecomparison.dto.Product;
 
 /**
  *
  * @author David
  */
 
-public interface Scraper {  
+public interface ScraperInterface {  
     Product extractProductDetails(String html);
     
     ScraperResponse accessScrapingUrl(String url);

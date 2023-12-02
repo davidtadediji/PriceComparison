@@ -4,14 +4,15 @@
  */
 package pricecomparison.scraper;
 
-import pricecomparison.model.Product;
+import pricecomparison.dto.ScraperResponse;
+import pricecomparison.dto.Product;
 import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author David
  */
-public class Scraper2 implements Scraper {
+public class Scraper2 implements ScraperInterface {
 
     public String extractProductTitle(String html) {
         // Initial implementation

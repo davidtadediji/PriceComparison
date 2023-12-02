@@ -4,14 +4,15 @@
  */
 package pricecomparison.scraper;
 
-import pricecomparison.model.Product;
+import pricecomparison.dto.ScraperResponse;
+import pricecomparison.dto.Product;
 import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author David
  */
-public class Scraper1 implements Scraper {
+public class Scraper1 implements ScraperInterface {
 
     public String extractProductTitle(String html) {
         // Initial implementation
@@ -28,30 +29,29 @@ public class Scraper1 implements Scraper {
         return "Test Price";
     }
 
-    
     public String extractProductImageUrl(String html) {
         return "https://www.imagelink.com";
     }
-    
-   @Override
-public Product extractProductDetails(String html) {
-    try {
-        // Extract details
-        String title = extractProductTitle(html);
-        String description = extractProductDescription(html);
-        String price = extractProductPrice(html);
-        String imageUrl = extractProductImageUrl(html);
 
-        return new Product(title, description, price, imageUrl);
-    } catch (Exception e) {
-        // Log the error for investigation
+    @Override
+    public Product extractProductDetails(String html) {
+        try {
+            // Extract details
+            String title = extractProductTitle(html);
+            String description = extractProductDescription(html);
+            String price = extractProductPrice(html);
+            String imageUrl = extractProductImageUrl(html);
+
+            return new Product(title, description, price, imageUrl);
+        } catch (Exception e) {
+            // Log the error for investigation
 //        log.error("Error extracting product details from malformed HTML", e);
-        System.out.println("Error extracting product details from malformed HTML");
+            System.out.println("Error extracting product details from malformed HTML");
 
-        // Return null or an empty product
-        return null;
+            // Return null or an empty product
+            return null;
+        }
     }
-}
 
     @Override
     public ScraperResponse accessScrapingUrl(String url) {
