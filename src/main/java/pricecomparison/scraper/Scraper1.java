@@ -4,89 +4,96 @@
  */
 package pricecomparison.scraper;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import pricecomparison.dto.ScraperResponse;
 import pricecomparison.dto.Product;
-import java.util.concurrent.TimeUnit;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author David
  */
+/**
+ * Amazon Scraper Implementation
+ */
 public class Scraper1 implements ScraperInterface {
 
-    public String extractProductTitle(String html) {
-        // Initial implementation
-        // For simplicity, returning a static value
-        return "Test Title";
-    }
-
-    public String extractProductDescription(String html) {
-        // Implementation for product description extraction
-        return "Test Description";
-    }
-
-    public String extractProductPrice(String html) {
-        return "Test Price";
-    }
-
-    public String extractProductImageUrl(String html) {
-        return "https://www.imagelink.com";
-    }
+    private static final Logger logger = Logger.getLogger(Scraper1.class.getName());
 
     @Override
     public Product extractProductDetails(String html) {
         try {
-            // Extract details
-            String title = extractProductTitle(html);
-            String description = extractProductDescription(html);
-            String price = extractProductPrice(html);
-            String imageUrl = extractProductImageUrl(html);
+            // Extract details using JSoup
+            Document document = Jsoup.parse(html);
+
+            // Extract title
+            String title = extractProductTitle(document);
+
+            // Extract description
+            String description = extractProductDescription(document);
+
+            // Extract price
+            String price = extractProductPrice(document);
+
+            // Extract image URL
+            String imageUrl = extractProductImageUrl(document);
 
             return new Product(title, description, price, imageUrl);
         } catch (Exception e) {
             // Log the error for investigation
-//        log.error("Error extracting product details from malformed HTML", e);
-            System.out.println("Error extracting product details from malformed HTML");
+            logger.log(Level.SEVERE, "Error extracting product details from malformed HTML", e);
 
             // Return null or an empty product
             return null;
         }
     }
 
-    @Override
-    public ScraperResponse accessScrapingUrl(String url) {
-        // Simulate a timeout (replace this with your actual HTTP request logic)
-        if (url.contains("timeout")) {
-            try {
-                TimeUnit.SECONDS.sleep(5); // Simulate a 5-second timeout
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            return new ScraperResponse(null, getStatusCode(url)); // Timeout occurred
-        }
-
-        if (url.contains("nonexistent")) {
-            return new ScraperResponse(null, getStatusCode(url)); // Nonexistent URL
-        }
-        if (url.contains("connection_error")) {
-            return new ScraperResponse(null, getStatusCode(url)); // Nonexistent URL
-        }
-
-        // For other URLs (potentially successful), add content
-        String content = "<html><body><h1>Product Title</h1></body></html>";
-        return new ScraperResponse(content, getStatusCode(url)); // Default status code for potentially successful URLs
+    private String extractProductTitle(Document document) {
+        // Example: Extract the title of the page
+        return document.title();
     }
 
-    public int getStatusCode(String url) {
-        // Simulate different status codes based on the URL (replace with your logic)
-        if (url.contains("nonexistent")) {
-            return 404;
-        } else if (url.contains("timeout")) {
-            return 408;
-        } else if (url.contains("connection_error")) {
-            return 502;
-        } else {
-            return 200; // Default status code
+    private String extractProductDescription(Document document) {
+        // Example: Extract all paragraphs on the page
+        Elements paragraphs = document.select("p");
+        return paragraphs.text();
+    }
+
+    private String extractProductPrice(Document document) {
+        // Example: Extract the first heading on the page
+        Element heading = document.select("h1").first();
+        return heading.text();
+    }
+
+    private String extractProductImageUrl(Document document) {
+        // Example: Extract the first link on the page
+        Elements links = document.select("a[href]");
+        return links.first().attr("href");
+    }
+
+    @Override
+    public ScraperResponse accessScrapingUrl(String url) {
+        try {
+            // Use JSoup to connect to the website and fetch the HTML content
+            Document document = Jsoup.connect(url).get();
+
+            // Convert the Document to HTML String
+            String htmlContent = document.html();
+
+            // Return the HTML content with a 200 status code (OK)
+            return new ScraperResponse(htmlContent, 200);
+        } catch (IOException e) {
+            // Log the error for investigation
+            logger.log(Level.SEVERE, "Error accessing website: " + url, e);
+
+            // Return null with an appropriate status code (you may customize based on your requirements)
+            return new ScraperResponse(null, 500); // Internal Server Error
         }
     }
 

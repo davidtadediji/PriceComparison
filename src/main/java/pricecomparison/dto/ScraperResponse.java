@@ -18,7 +18,7 @@ public class ScraperResponse {
         this.statusCode = statusCode;
     }
 
-    public String getContent() {
+    public String getHtmlContent() {
         return content;
     }
 
