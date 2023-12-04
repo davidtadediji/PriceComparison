@@ -12,8 +12,11 @@ import pricecomparison.dto.ScraperResponse;
 import pricecomparison.dto.Product;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pricecomparison.dto.Variation;
 
 /**
  *
@@ -39,12 +42,21 @@ public class Scraper1 implements ScraperInterface {
             String description = extractProductDescription(document);
 
             // Extract price
-            String price = extractProductPrice(document);
+            int price = extractProductPrice(document);
+
+            // Extract currency
+            String currency = extractProductCurrency(document);
 
             // Extract image URL
             String imageUrl = extractProductImageUrl(document);
 
-            return new Product(title, description, price, imageUrl);
+            // Extract description
+            String manufacturer = extractProductManufacturer(document);
+
+            // Extract variations
+            List<Variation> variations = extractProductVariations(document);
+
+            return new Product(title, description, price, imageUrl, manufacturer, variations, currency);
         } catch (Exception e) {
             // Log the error for investigation
             logger.log(Level.SEVERE, "Error extracting product details from malformed HTML", e);
@@ -52,6 +64,13 @@ public class Scraper1 implements ScraperInterface {
             // Return null or an empty product
             return null;
         }
+    }
+
+    private String extractProductCurrency(Document document) {
+        // Example: Extract the manufacturer information from the page
+        Element currencyElement = document.select("div.myClass").first();
+        return currencyElement.text();
+
     }
 
     private String extractProductTitle(Document document) {
@@ -65,16 +84,37 @@ public class Scraper1 implements ScraperInterface {
         return paragraphs.text();
     }
 
-    private String extractProductPrice(Document document) {
+    private int extractProductPrice(Document document) {
         // Example: Extract the first heading on the page
         Element heading = document.select("h1").first();
-        return heading.text();
+        return Integer.parseInt(heading.text());
     }
 
     private String extractProductImageUrl(Document document) {
         // Example: Extract the first link on the page
         Elements links = document.select("a[href]");
         return links.first().attr("href");
+    }
+
+    private String extractProductManufacturer(Document document) {
+        // Example: Extract the manufacturer information from the page
+        Element manufacturerElement = document.select("div.myClass").first();
+        return manufacturerElement.text();
+
+    }
+
+    private List<Variation> extractProductVariations(Document document) {
+        List<Variation> variations = new ArrayList<>();
+
+        // Example: Extract variations from the page
+        Elements variationElements = document.select(".variation-class");
+        for (Element variationElement : variationElements) {
+            String name = variationElement.select(".name-class").text();
+            String value = variationElement.select(".value-class").text();
+            variations.add(new Variation(name, value));
+        }
+
+        return variations;
     }
 
     @Override

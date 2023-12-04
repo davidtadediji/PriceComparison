@@ -12,7 +12,7 @@ import pricecomparison.entity.Model;
  *
  * @author David
  */
-public class ModelDAO {
+public class ModelDao {
 
     private SessionFactory sessionFactory;
 

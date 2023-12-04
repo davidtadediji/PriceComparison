@@ -18,12 +18,12 @@ import pricecomparison.entity.Model;
 
 
 
-public class ComparisonDAO {
+public class ComparisonDao {
 
     private final SessionFactory sessionFactory;
 
     // Constructor with Dependency Injection
-    public ComparisonDAO(SessionFactory sessionFactory) {
+    public ComparisonDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
    

@@ -11,7 +11,7 @@ import pricecomparison.entity.ModelVariation;
  *
  * @author David
  */
-public class ModelVariationDAO {
+public class ModelVariationDao {
 
     private SessionFactory sessionFactory;
 
