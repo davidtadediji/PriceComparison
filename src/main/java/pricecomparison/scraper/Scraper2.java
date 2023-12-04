@@ -17,12 +17,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pricecomparison.dto.Variation;
+import org.springframework.stereotype.Service;
+
 
 /**
  *
  * @author David
  */
 // Alixpress Scraper Implementation
+@Service
 public class Scraper2 implements ScraperInterface {
 
     private static final Logger logger = Logger.getLogger(Scraper2.class.getName());

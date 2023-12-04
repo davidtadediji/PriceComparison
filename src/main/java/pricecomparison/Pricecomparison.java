@@ -4,9 +4,9 @@
  */
 
 package pricecomparison;
-//
-//import org.springframework.boot.SpringApplication;
-//import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  *
  * @author David
@@ -15,6 +15,6 @@ package pricecomparison;
 public class Pricecomparison {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+       ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
     }
 }

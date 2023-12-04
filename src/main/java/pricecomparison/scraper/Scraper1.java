@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pricecomparison.dto.Variation;
+import org.springframework.stereotype.Service;
+
 
 /**
  *
@@ -25,6 +27,8 @@ import pricecomparison.dto.Variation;
 /**
  * Amazon Scraper Implementation
  */
+
+@Service
 public class Scraper1 implements ScraperInterface {
 
     private static final Logger logger = Logger.getLogger(Scraper1.class.getName());
