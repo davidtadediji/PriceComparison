@@ -6,12 +6,15 @@ package pricecomparison.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 import pricecomparison.entity.Model;
 
 /**
  *
  * @author David
  */
+
+@Repository
 public class ModelDao {
 
     private SessionFactory sessionFactory;

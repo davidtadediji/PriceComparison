@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 import pricecomparison.entity.Comparison;
 import pricecomparison.entity.Model;
 
@@ -17,7 +18,7 @@ import pricecomparison.entity.Model;
  */
 
 
-
+@Repository
 public class ComparisonDao {
 
     private final SessionFactory sessionFactory;
