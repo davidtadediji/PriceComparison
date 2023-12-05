@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pricecomparison.dto;
+package pricecomparison.transferobject;
 
 import java.util.List;
 
@@ -19,10 +19,6 @@ public class Product {
     private String manufacturer;
     private List<Variation> variations;
     private String currency;
-
-   
-
-  
 
     public Product(String title, String description, int price, String imageUrl, String manufacturer, List<Variation> variations, String currency) {
         this.title = title;
@@ -82,7 +78,8 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-     public String getCurrency() {
+
+    public String getCurrency() {
         return currency;
     }
 

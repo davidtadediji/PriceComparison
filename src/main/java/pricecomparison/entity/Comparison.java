@@ -38,7 +38,7 @@ public class Comparison {
 
     public Comparison() {
     }
-    
+
     public Comparison(Integer id) {
         this.id = id;
     }
@@ -54,7 +54,6 @@ public class Comparison {
         this.model = model;
         this.modelVariation = modelVariation;
     }
-
 
     public Integer getId() {
         return id;

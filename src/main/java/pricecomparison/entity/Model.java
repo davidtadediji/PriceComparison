@@ -8,11 +8,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
+
 /**
  *
  * @author David
  */
-
 @Entity
 @Table(name = "model")
 public class Model implements Serializable {
@@ -43,8 +43,6 @@ public class Model implements Serializable {
     public Model(Integer id) {
         this.id = id;
     }
-    
-    
 
     public Model(Integer id, String name, String description, String manufacturer, String imageUrl, Timestamp createdAt, String slug, String properties, List<ModelVariation> variations) {
         this.id = id;

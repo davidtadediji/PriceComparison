@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pricecomparison.dao;
+package pricecomparison.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import pricecomparison.entity.Model;
+import pricecomparison.entity.ModelVariation;
 
 /**
  *
@@ -15,7 +15,7 @@ import pricecomparison.entity.Model;
  */
 
 @Repository
-public class ModelDao {
+public class ModelVariationRepository {
 
     private SessionFactory sessionFactory;
 
@@ -23,10 +23,10 @@ public class ModelDao {
         this.sessionFactory = sessionFactory;
     }
 
-    public void saveOrUpdateModel(Model model) {
-        try (Session session = sessionFactory.openSession()) {
+    public void saveOrUpdateModelVariation(ModelVariation modelVariation) {
+        try ( Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.saveOrUpdate(model);
+            session.saveOrUpdate(modelVariation);
             session.getTransaction().commit();
         }
     }

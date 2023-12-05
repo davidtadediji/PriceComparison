@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pricecomparison.dto;
+package pricecomparison.transferobject;
 
 /**
  *
  * @author David
  */
+public class Response {
 
-public class ScraperResponse {
     private final String content;
     private final int statusCode;
 
-    public ScraperResponse(String content, int statusCode) {
+    public Response(String content, int statusCode) {
         this.content = content;
         this.statusCode = statusCode;
     }
@@ -26,4 +26,3 @@ public class ScraperResponse {
         return statusCode;
     }
 }
-

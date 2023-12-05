@@ -5,6 +5,7 @@
 package pricecomparison.entity;
 
 import javax.persistence.*;
+
 /**
  *
  * @author David
