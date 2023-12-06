@@ -34,8 +34,8 @@ public class Model implements Serializable {
     @Column(columnDefinition = "jsonb")
     private String properties;
 
-    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL)
-    private List<ModelVariation> variations;
+//    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL)
+//    private List<ModelVariation> variations;
 
     public Model() {
     }
@@ -53,7 +53,6 @@ public class Model implements Serializable {
         this.createdAt = createdAt;
         this.slug = slug;
         this.properties = properties;
-        this.variations = variations;
     }
 
     public Integer getId() {
@@ -120,11 +119,11 @@ public class Model implements Serializable {
         this.properties = properties;
     }
 
-    public List<ModelVariation> getVariations() {
-        return variations;
-    }
-
-    public void setVariations(List<ModelVariation> variations) {
-        this.variations = variations;
-    }
+//    public List<ModelVariation> getVariations() {
+//        return variations;
+//    }
+//
+//    public void setVariations(List<ModelVariation> variations) {
+//        this.variations = variations;
+//    }
 }
