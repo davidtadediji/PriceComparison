@@ -20,7 +20,7 @@ public class Comparison {
     private Integer id;
 
     private String url;
-    private Integer price;
+    private Integer amount;
     private String currency;
     private String store;
     private String storeLogoUrl;
@@ -43,10 +43,10 @@ public class Comparison {
         this.id = id;
     }
 
-    public Comparison(Integer id, String url, Integer price, String currency, String store, String storeLogoUrl, Timestamp lastUpdated, Model model, ModelVariation modelVariation) {
+    public Comparison(Integer id, String url, Integer amount, String currency, String store, String storeLogoUrl, Timestamp lastUpdated, Model model, ModelVariation modelVariation) {
         this.id = id;
         this.url = url;
-        this.price = price;
+        this.amount = amount;
         this.currency = currency;
         this.store = store;
         this.storeLogoUrl = storeLogoUrl;
@@ -71,12 +71,12 @@ public class Comparison {
         this.url = url;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public String getCurrency() {
