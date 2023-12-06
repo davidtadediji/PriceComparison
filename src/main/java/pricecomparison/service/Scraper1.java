@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
+import pricecomparison.transferobject.Property;
 import pricecomparison.transferobject.Variation;
 
 /**
  *
  * @author David
  */
-
 // Amazon Scraper Implementation
 @Service
 public class Scraper1 implements ScraperInterface {
@@ -42,8 +42,9 @@ public class Scraper1 implements ScraperInterface {
             String imageUrl = Scraper1Helper.extractProductImageUrl(document);
             String manufacturer = Scraper1Helper.extractProductManufacturer(document);
             List<Variation> variations = Scraper1Helper.extractProductVariations(document);
+            List<Property> properties = Scraper1Helper.extractProductProperties(document);
 
-            return new Product(title, description, price, imageUrl, manufacturer, variations, currency);
+            return new Product(title, description, price, imageUrl, manufacturer, variations, currency, properties);
         } catch (Exception e) {
             // Log the error for investigation
             logger.log(Level.SEVERE, "Error extracting product details from malformed HTML", e);

@@ -4,6 +4,7 @@
  */
 package pricecomparison.entity;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "comparison")
-public class Comparison {
+public class Comparison implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

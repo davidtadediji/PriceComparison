@@ -7,7 +7,6 @@ package pricecomparison.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  *
@@ -31,12 +30,10 @@ public class Model implements Serializable {
 
     private String slug;
 
-    @Column(columnDefinition = "jsonb")
-    private String properties;
-
+//    @Column(columnDefinition = "jsonb")
+//    private String properties;
 //    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL)
 //    private List<ModelVariation> variations;
-
     public Model() {
     }
 
@@ -44,7 +41,7 @@ public class Model implements Serializable {
         this.id = id;
     }
 
-    public Model(Integer id, String name, String description, String manufacturer, String imageUrl, Timestamp createdAt, String slug, String properties, List<ModelVariation> variations) {
+    public Model(Integer id, String name, String description, String manufacturer, String imageUrl, Timestamp createdAt, String slug) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -52,7 +49,6 @@ public class Model implements Serializable {
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.slug = slug;
-        this.properties = properties;
     }
 
     public Integer getId() {
@@ -111,14 +107,13 @@ public class Model implements Serializable {
         this.slug = slug;
     }
 
-    public String getProperties() {
-        return properties;
-    }
-
-    public void setProperties(String properties) {
-        this.properties = properties;
-    }
-
+//    public String getProperties() {
+//        return properties;
+//    }
+//
+//    public void setProperties(String properties) {
+//        this.properties = properties;
+//    }
 //    public List<ModelVariation> getVariations() {
 //        return variations;
 //    }

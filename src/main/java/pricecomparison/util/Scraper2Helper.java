@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pricecomparison.transferobject.Variation;
+import pricecomparison.transferobject.Property;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,5 +70,18 @@ public class Scraper2Helper {
             }
         }
         return variations;
+    }
+
+    public static List<Property> extractProductProperties(Document document) {
+        List<Property> properties = new ArrayList<>();
+        if (document != null) {
+            Elements propertyElements = document.select(".property-class");
+            for (Element propertyElement : propertyElements) {
+                String name = propertyElement.select(".name-class").text();
+                String value = propertyElement.select(".value-class").text();
+                properties.add(new Property(name, value));
+            }
+        }
+        return properties;
     }
 }

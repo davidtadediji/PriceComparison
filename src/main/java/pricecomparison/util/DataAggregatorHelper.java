@@ -4,17 +4,19 @@
  */
 package pricecomparison.util;
 
+import java.sql.Timestamp;
 import com.github.slugify.Slugify;
 import pricecomparison.transferobject.Product;
 import pricecomparison.transferobject.Variation;
+import pricecomparison.transferobject.Property;
 import pricecomparison.entity.Comparison;
 import pricecomparison.entity.Model;
 import pricecomparison.entity.ModelVariation;
+import pricecomparison.entity.ModelProperty;
 import pricecomparison.repository.ComparisonRepository;
 import pricecomparison.repository.ModelRepository;
 import pricecomparison.repository.ModelVariationRepository;
-
-import java.sql.Timestamp;
+import pricecomparison.repository.ModelPropertyRepository;
 
 /**
  *
@@ -24,12 +26,14 @@ public class DataAggregatorHelper {
 
     private final ModelRepository modelDao;
     private final ModelVariationRepository modelVariationDao;
+    private final ModelPropertyRepository modelPropertyDao;
     private final ComparisonRepository comparisonDao;
 
-    public DataAggregatorHelper(ModelRepository modelDao, ModelVariationRepository modelVariationDao, ComparisonRepository comparisonDao) {
+    public DataAggregatorHelper(ModelRepository modelDao, ModelVariationRepository modelVariationDao, ModelPropertyRepository modelPropertyDao, ComparisonRepository comparisonDao) {
         this.modelDao = modelDao;
         this.modelVariationDao = modelVariationDao;
         this.comparisonDao = comparisonDao;
+        this.modelPropertyDao = modelPropertyDao;
     }
 
     public Model createAndSaveModel(Product product) {
@@ -51,6 +55,16 @@ public class DataAggregatorHelper {
             modelVariation.setVariationName(variation.getName());
             modelVariation.setVariationValue(variation.getValue());
             modelVariationDao.saveOrUpdateModelVariation(modelVariation);
+        }
+    }
+
+    public void createAndSaveModelProperties(Product product, Model model) {
+        for (Property property : product.getProperties()) {
+            ModelProperty modelProperty = new ModelProperty();
+            modelProperty.setModel(model);
+            modelProperty.setPropertyKey(property.getPropertyKey());
+            modelProperty.setPropertyValue(property.getPropertyValue());
+            modelPropertyDao.saveOrUpdateModelProperty(modelProperty);
         }
     }
 

@@ -11,9 +11,13 @@ import pricecomparison.transferobject.Product;
 import pricecomparison.util.Scraper2Helper;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
+import pricecomparison.transferobject.Property;
+import pricecomparison.transferobject.Variation;
+import pricecomparison.util.Scraper1Helper;
 
 /**
  *
@@ -38,9 +42,10 @@ public class Scraper2 implements ScraperInterface {
             String currency = Scraper2Helper.extractProductCurrency(document);
             String imageUrl = Scraper2Helper.extractProductImageUrl(document);
             String manufacturer = Scraper2Helper.extractProductManufacturer(document);
-            java.util.List<pricecomparison.transferobject.Variation> variations = Scraper2Helper.extractProductVariations(document);
+            List<Variation> variations = Scraper2Helper.extractProductVariations(document);
+            List<Property> properties = Scraper1Helper.extractProductProperties(document);
 
-            return new Product(title, description, price, imageUrl, manufacturer, variations, currency);
+            return new Product(title, description, price, imageUrl, manufacturer, variations, currency, properties);
         } catch (Exception e) {
             // Log the error for investigation
             logger.log(Level.SEVERE, "Error extracting product details from malformed HTML", e);

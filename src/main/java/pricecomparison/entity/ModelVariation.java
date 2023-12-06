@@ -4,6 +4,7 @@
  */
 package pricecomparison.entity;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
 /**
@@ -13,7 +14,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "model_variations")
-public class ModelVariation {
+public class ModelVariation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

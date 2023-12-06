@@ -19,8 +19,9 @@ public class Product {
     private String manufacturer;
     private List<Variation> variations;
     private String currency;
+    private List<Property> properties;
 
-    public Product(String title, String description, int price, String imageUrl, String manufacturer, List<Variation> variations, String currency) {
+    public Product(String title, String description, int price, String imageUrl, String manufacturer, List<Variation> variations, String currency, List<Property> properties) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -28,14 +29,7 @@ public class Product {
         this.manufacturer = manufacturer;
         this.variations = variations;
         this.currency = currency;
-    }
-
-    public List<Variation> getVariations() {
-        return variations;
-    }
-
-    public void setVariations(List<Variation> variations) {
-        this.variations = variations;
+        this.properties = properties;
     }
 
     // Getters and setters for each field
@@ -86,4 +80,21 @@ public class Product {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+    public List<Variation> getVariations() {
+        return variations;
+    }
+
+    public void setVariations(List<Variation> variations) {
+        this.variations = variations;
+    }
+
+    public List<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
+
 }
