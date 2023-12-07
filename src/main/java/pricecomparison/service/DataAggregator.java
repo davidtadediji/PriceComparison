@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pricecomparison.transferobject.Price;
 
 import pricecomparison.transferobject.Product;
 import pricecomparison.transferobject.Response;
@@ -44,6 +45,18 @@ public class DataAggregator {
         // Additional business logic and database operations...
     }
 
+    public void scrapeAndStorePricingData(String url) {
+        logger.log(Level.INFO, "Scraping and storing pricing data for URL: {0}", url);
+
+        if (url.contains("amazon")) {
+            scrapeAndStoreAmazonPricingData(url);
+        } else if (url.contains("aliexpress")) {
+            scrapeAndStoreAliExpressPricingData(url);
+        }
+        // Add more conditions for other e-commerce websites...
+        // Additional business logic and database operations...
+    }
+
     private void scrapeAndStoreAmazonData(String url) {
         logger.log(Level.INFO, "Scraping and storing Amazon data for URL: {0}", url);
 
@@ -54,6 +67,23 @@ public class DataAggregator {
                 // Log product details...
                 dataAggregatorHelper.storeDataCommonLogic(product, "Amazon", scraper1.getLogoUrl(), url);
                 logger.info("Amazon data stored successfully.");
+            }
+        } else {
+            // Handle error or log appropriately
+            logger.log(Level.WARNING, "Error accessing Amazon URL: {0}", url);
+        }
+    }
+
+    private void scrapeAndStoreAmazonPricingData(String url) {
+        logger.log(Level.INFO, "Scraping and storing Amazon pricing data for URL: {0}", url);
+
+        Response response = scraper1.accessScrapingUrl(url);
+        if (response != null && response.getStatusCode() == 200) {
+            Price price = scraper1.extractProductPrice(response.getHtmlContent());
+            if (price != null) {
+                // Update comparison price
+                dataAggregatorHelper.updateComparisonPrice(price, "Amazon", url);
+                logger.info("Amazon pricing data stored successfully.");
             }
         } else {
             // Handle error or log appropriately
@@ -77,5 +107,21 @@ public class DataAggregator {
             logger.log(Level.WARNING, "Error accessing Alixpress URL: {0}", url);
         }
     }
-    // Additional methods and business logic...
+
+    private void scrapeAndStoreAliExpressPricingData(String url) {
+        logger.log(Level.INFO, "Scraping and storing AliExpress pricing data for URL: {0}", url);
+
+        Response response = scraper2.accessScrapingUrl(url);
+        if (response != null && response.getStatusCode() == 200) {
+            Price price = scraper2.extractProductPrice(response.getHtmlContent());
+            if (price != null) {
+                // Update comparison price
+                dataAggregatorHelper.updateComparisonPrice(price, "AliExpress", url);
+                logger.info("AliExpress pricing data stored successfully.");
+            }
+        } else {
+            // Handle error or log appropriately
+            logger.log(Level.WARNING, "Error accessing AliExpress URL: {0}", url);
+        }
+    }
 }

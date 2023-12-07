@@ -17,6 +17,7 @@ import pricecomparison.repository.ComparisonRepository;
 import pricecomparison.repository.ModelRepository;
 import pricecomparison.repository.ModelVariationRepository;
 import pricecomparison.repository.ModelPropertyRepository;
+import pricecomparison.transferobject.Price;
 
 /**
  *
@@ -91,4 +92,13 @@ public class DataAggregatorHelper {
         createAndSaveModelVariations(product, model);
         createAndSaveComparison(product, model, storeName, logoUrl, url);
     }
+
+    public void updateComparisonPrice(Price price, String storeName, String url) {
+        Comparison existingComparison = comparisonDao.getComparisonByUrl(url);
+        existingComparison.setAmount(price.getAmount());
+        existingComparison.setCurrency(price.getCurrency());
+        existingComparison.setLastUpdated(new Timestamp(System.currentTimeMillis()));
+        comparisonDao.saveOrUpdateComparison(existingComparison);
+    }
+
 }

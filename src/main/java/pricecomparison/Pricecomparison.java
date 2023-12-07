@@ -4,17 +4,19 @@
  */
 package pricecomparison;
 
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pricecomparison.service.DataAggregator;
 
 import java.util.Arrays;
 import java.util.List;
+import pricecomparison.scheduler.PriceScheduler;
+
 /**
  *
  * @author David
  */
+
 public class Pricecomparison {
 
     public static void main(String[] args) {
@@ -29,12 +31,16 @@ public class Pricecomparison {
                 "https://www.amazon.com/sample-product-url1",
                 "https://www.amazon.com/sample-product-url2",
                 "https://www.aliexpress.com/sample-product-url3"
-                // Add more URLs as needed
+        // Add more URLs as needed
         );
 
         // Call the scrapeAndStoreData method for each URL in the list
         for (String url : urls) {
             dataAggregator.scrapeAndStoreData(url);
         }
+
+        // Schedule periodic scraping for pricing data using the same list of URLs
+        PriceScheduler priceScheduler = new PriceScheduler(dataAggregator);
+        priceScheduler.schedulePricingScraping(urls);
     }
 }

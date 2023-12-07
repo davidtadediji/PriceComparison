@@ -55,6 +55,20 @@ public class Scraper2 implements ScraperInterface {
         }
     }
 
+    public Price extractProductPrice(String html) {
+        try {
+            // Extract only pricing information using JSoup
+            Document document = Jsoup.parse(html);
+            return Scraper1Helper.extractProductPrice(document);
+        } catch (Exception e) {
+            // Log the error for investigation
+            logger.log(Level.SEVERE, "Error extracting pricing data from malformed HTML", e);
+
+            // Return null or an empty Price
+            return null;
+        }
+    }
+
     @Override
     public Response accessScrapingUrl(String url) {
         try {

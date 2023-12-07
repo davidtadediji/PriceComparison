@@ -48,6 +48,15 @@ public class ComparisonRepository {
         }
     }
 
+    public Comparison getComparisonByUrl(String url) {
+        try ( Session session = sessionFactory.openSession()) {
+            String hql = "FROM Comparison WHERE url = :url";
+            return session.createQuery(hql, Comparison.class)
+                    .setParameter("url", url)
+                    .uniqueResult();
+        }
+    }
+
     public List<Comparison> getComparisonsByModel(Model model) {
         try ( Session session = sessionFactory.openSession()) {
             String hql = "FROM Comparison WHERE model = :model";
