@@ -14,21 +14,19 @@ public class Product {
 
     private String title;
     private String description;
-    private int price;
+    private Price price;
     private String imageUrl;
     private String manufacturer;
     private List<Variation> variations;
-    private String currency;
     private List<Property> properties;
 
-    public Product(String title, String description, int price, String imageUrl, String manufacturer, List<Variation> variations, String currency, List<Property> properties) {
+    public Product(String title, String description, Price price, String imageUrl, String manufacturer, List<Variation> variations, List<Property> properties) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
         this.manufacturer = manufacturer;
         this.variations = variations;
-        this.currency = currency;
         this.properties = properties;
     }
 
@@ -49,11 +47,11 @@ public class Product {
         this.description = description;
     }
 
-    public int getPrice() {
+    public Price getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Price price) {
         this.price = price;
     }
 
@@ -71,14 +69,6 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public List<Variation> getVariations() {

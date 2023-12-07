@@ -19,9 +19,9 @@ import pricecomparison.util.DataAggregatorHelper;
  * @author David
  */
 @Service
-public class DataAggregrator {
+public class DataAggregator {
 
-    private static final Logger logger = Logger.getLogger(DataAggregrator.class.getName());
+    private static final Logger logger = Logger.getLogger(DataAggregator.class.getName());
 
     @Autowired
     private Scraper1 scraper1;

@@ -71,8 +71,8 @@ public class DataAggregatorHelper {
     public void createAndSaveComparison(Product product, Model model, String storeName, String logoUrl, String url) {
         Comparison comparison = new Comparison();
         comparison.setUrl(url);
-        comparison.setAmount(product.getPrice());
-        comparison.setCurrency(product.getCurrency());
+        comparison.setAmount(product.getPrice().getAmount());
+        comparison.setCurrency(product.getPrice().getCurrency());
         comparison.setStore(storeName);
         comparison.setStoreLogoUrl(logoUrl);
         comparison.setLastUpdated(new Timestamp(System.currentTimeMillis()));

@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 import pricecomparison.transferobject.Variation;
 import java.util.ArrayList;
 import java.util.List;
+import pricecomparison.transferobject.Price;
 import pricecomparison.transferobject.Property;
 
 /**
@@ -35,12 +36,17 @@ public class Scraper1Helper {
         return null;
     }
 
-    public static int extractProductPrice(Document document) {
+    public static Price extractProductPrice(Document document) {
         if (document != null) {
-            Element heading = document.select("h1").first();
-            return heading != null ? Integer.parseInt(heading.text()) : 0;
+            String priceString = document.select(".price-class").text();
+            String currency = extractProductCurrency(document);
+
+            // Parse the priceString to an integer or double based on your requirements
+            int price = Integer.parseInt(priceString);
+
+            return new Price(price, currency);
         }
-        return 0;
+        return new Price(0, null);
     }
 
     public static String extractProductImageUrl(Document document) {

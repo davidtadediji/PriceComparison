@@ -4,9 +4,13 @@
  */
 package pricecomparison;
 
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import pricecomparison.service.DataAggregator;
 
+import java.util.Arrays;
+import java.util.List;
 /**
  *
  * @author David
@@ -14,6 +18,23 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Pricecomparison {
 
     public static void main(String[] args) {
+        // Load the Spring application context
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        // Retrieve the DataAggregator bean from the context
+        DataAggregator dataAggregator = context.getBean(DataAggregator.class);
+
+        // Example list of URLs to scrape and store data
+        List<String> urls = Arrays.asList(
+                "https://www.amazon.com/sample-product-url1",
+                "https://www.amazon.com/sample-product-url2",
+                "https://www.aliexpress.com/sample-product-url3"
+                // Add more URLs as needed
+        );
+
+        // Call the scrapeAndStoreData method for each URL in the list
+        for (String url : urls) {
+            dataAggregator.scrapeAndStoreData(url);
+        }
     }
 }
