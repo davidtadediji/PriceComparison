@@ -13,17 +13,13 @@
     <!-- Enable component scanning for Spring components -->
     <context:component-scan base-package="pricecomparison"/>
 
-    <!-- DataSource Configuration -->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/pricecomparison"/>
-        <property name="username" value="root"/>
-        <property name="password" value=""/>
-    </bean>
-
     <!-- Hibernate SessionFactory Configuration -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource">
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:/comp/env/jdbc/yourDatasource"/>
+            </bean>
+        </property>
         <property name="packagesToScan" value="pricecomparison.entity"/>
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
     </bean>
@@ -35,28 +31,5 @@
 
     <!-- Enable annotation-driven transaction management -->
     <tx:annotation-driven/>
-
-    <!-- Scraper1 bean definition -->
-    <bean id="scraper1" class="pricecomparison.service.Scraper1">
-        <!-- Add any required configurations or dependencies for Scraper1 -->
-    </bean>
-
-    <!-- Scraper2 bean definition -->
-    <bean id="scraper2" class="pricecomparison.service.Scraper2">
-        <!-- Add any required configurations or dependencies for Scraper2 -->
-    </bean>
-
-    <!-- DataAggregatorHelper bean definition -->
-    <bean id="dataAggregatorHelper" class="pricecomparison.util.DataAggregatorHelper">
-        <!-- Add any required configurations or dependencies for DataAggregatorHelper -->
-    </bean>
-
-    <!-- DataAggregator bean definition -->
-    <bean id="dataAggregator" class="pricecomparison.service.DataAggregator">
-        <property name="scraper1" ref="scraper1"/>
-        <property name="scraper2" ref="scraper2"/>
-        <property name="dataAggregatorHelper" ref="dataAggregatorHelper"/>
-        <!-- Add any additional configurations or dependencies for DataAggregator -->
-    </bean>
 
 </beans>

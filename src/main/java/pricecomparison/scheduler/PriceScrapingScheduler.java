@@ -15,11 +15,11 @@ import pricecomparison.service.DataAggregator;
  * @author David
  */
 
-public class PriceScheduler {
+public class PriceScrapingScheduler {
 
     private final DataAggregator dataAggregator;
 
-    public PriceScheduler(DataAggregator dataAggregator) {
+    public PriceScrapingScheduler(DataAggregator dataAggregator) {
         this.dataAggregator = dataAggregator;
     }
 
