@@ -33,31 +33,29 @@ public class DataAggregator {
     @Autowired
     private DataAggregatorHelper dataAggregatorHelper;
 
-    public void scrapeAndStoreData(String url) {
-        logger.log(Level.INFO, "Scraping and storing data for URL: {0}", url);
-
-        if (url.contains("amazon")) {
-            scrapeAndStoreAmazonData(url);
-        } else if (url.contains("aliexpress")) {
-            scrapeAndStoreAliexpressData(url);
-        }
-        // Add more conditions for other e-commerce websites...
-        // Additional business logic and database operations...
-    }
-
-    public void scrapeAndStorePricingData(String url) {
-        logger.log(Level.INFO, "Scraping and storing pricing data for URL: {0}", url);
-
-        if (url.contains("amazon")) {
-            scrapeAndStoreAmazonPricingData(url);
-        } else if (url.contains("aliexpress")) {
-            scrapeAndStoreAliExpressPricingData(url);
-        }
-        // Add more conditions for other e-commerce websites...
-        // Additional business logic and database operations...
-    }
-
-    private void scrapeAndStoreAmazonData(String url) {
+//    public void scrapeAndStoreData(String url) {
+//        logger.log(Level.INFO, "Scraping and storing data for URL: {0}", url);
+//
+//        if (url.contains("amazon")) {
+//            scrapeAndStoreAmazonData(url);
+//        } else if (url.contains("aliexpress")) {
+//            scrapeAndStoreAliexpressData(url);
+//        }
+//        // Add more conditions for other e-commerce websites...
+//        // Additional business logic and database operations...
+//    }
+//    public void scrapeAndStorePricingData(String url) {
+//        logger.log(Level.INFO, "Scraping and storing pricing data for URL: {0}", url);
+//
+//        if (url.contains("amazon")) {
+//            scrapeAndStoreAmazonPricingData(url);
+//        } else if (url.contains("aliexpress")) {
+//            scrapeAndStoreAliExpressPricingData(url);
+//        }
+//        // Add more conditions for other e-commerce websites...
+//        // Additional business logic and database operations...
+//    }
+    public void scrapeAndStoreAmazonData(String url) {
         logger.log(Level.INFO, "Scraping and storing Amazon data for URL: {0}", url);
 
         Response response = scraper1.accessScrapingUrl(url);
@@ -74,7 +72,7 @@ public class DataAggregator {
         }
     }
 
-    private void scrapeAndStoreAmazonPricingData(String url) {
+    public void scrapeAndStoreAmazonPricingData(String url) {
         logger.log(Level.INFO, "Scraping and storing Amazon pricing data for URL: {0}", url);
 
         Response response = scraper1.accessScrapingUrl(url);
@@ -91,7 +89,7 @@ public class DataAggregator {
         }
     }
 
-    private void scrapeAndStoreAliexpressData(String url) {
+    public void scrapeAndStoreAliexpressData(String url) {
         logger.log(Level.INFO, "Scraping and storing Aliexpress data for URL: {0}", url);
 
         Response response = scraper2.accessScrapingUrl(url);
@@ -108,7 +106,7 @@ public class DataAggregator {
         }
     }
 
-    private void scrapeAndStoreAliExpressPricingData(String url) {
+    public void scrapeAndStoreAliExpressPricingData(String url) {
         logger.log(Level.INFO, "Scraping and storing AliExpress pricing data for URL: {0}", url);
 
         Response response = scraper2.accessScrapingUrl(url);

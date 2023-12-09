@@ -14,7 +14,6 @@ import pricecomparison.service.DataAggregator;
  *
  * @author David
  */
-
 public class PriceScrapingScheduler {
 
     private final DataAggregator dataAggregator;
@@ -23,14 +22,21 @@ public class PriceScrapingScheduler {
         this.dataAggregator = dataAggregator;
     }
 
-    public void schedulePricingScraping(List<String> urls) {
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    // Method to schedule periodic concurrent pricing scraping for a list of URLs
+    public void schedulePeriodicPricingScraping(List<String> amazonUrls, List<String> aliexpressUrls, long initialDelay, long period) {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
-        // Schedule the task to run every 24 hours (adjust as needed)
-        scheduler.scheduleAtFixedRate(() -> {
-            for (String url : urls) {
-                dataAggregator.scrapeAndStorePricingData(url);
-            }
-        }, 0, 24, TimeUnit.HOURS);
+        // Schedule tasks for each URL at fixed intervals
+        for (String url : amazonUrls) {
+            scheduler.scheduleAtFixedRate(() -> dataAggregator.scrapeAndStoreAmazonPricingData(url), initialDelay, period, TimeUnit.SECONDS);
+        }
+
+        for (String url : aliexpressUrls) {
+            scheduler.scheduleAtFixedRate(() -> dataAggregator.scrapeAndStoreAliExpressPricingData(url), initialDelay, period, TimeUnit.SECONDS);
+        }
+
+        // Shut down the scheduler when needed
+        // Note: You may want to handle shutdown gracefully based on your application requirements
+        // scheduler.shutdown();
     }
 }
