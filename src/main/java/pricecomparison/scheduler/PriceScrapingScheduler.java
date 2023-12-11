@@ -8,12 +8,16 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.springframework.stereotype.Component;
 import pricecomparison.service.DataAggregator;
 
 /**
  *
  * @author David
  */
+
+@Component
+
 public class PriceScrapingScheduler {
 
     private final DataAggregator dataAggregator;

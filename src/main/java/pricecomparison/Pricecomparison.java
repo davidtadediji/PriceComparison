@@ -22,8 +22,8 @@ import java.util.logging.Logger;
 public class Pricecomparison {
 
     private static final Logger logger = Logger.getLogger(Pricecomparison.class.getName());
-    private static final long initialDelay = 0;
-    private static final long period = 3600;
+    private static final long INITIAL_DELAY = 0;
+    private static final long PERIOD = 3600;
 
     public static void main(String[] args) {
         logger.log(Level.INFO, "Testing logs");
@@ -35,13 +35,11 @@ public class Pricecomparison {
         ScraperManager scraperManager = context.getBean(ScraperManager.class);
 
         // Load URLs from the configuration file for each store
-        List<String> amazonUrls = loadUrlsFromConfig("store_config.properties", "Amazon");
-        List<String> aliexpressUrls = loadUrlsFromConfig("store_config.properties", "Aliexpress");
-
+        List<String> amazonUrls = loadUrlsFromConfig("store-config.properties", "Amazon");
+        List<String> aliexpressUrls = loadUrlsFromConfig("store-config.properties", "Aliexpress");
         // Schedule concurrent scraping for product details for each store
-        scraperManager.scheduleConcurrentScraping(amazonUrls, aliexpressUrls);
+        scraperManager.scheduleConcurrentScraping(amazonUrls, aliexpressUrls, INITIAL_DELAY, PERIOD);
 
-        scraperManager.schedulePeriodicPricingScraping(amazonUrls, aliexpressUrls, initialDelay, period);
 
     }
 
@@ -73,6 +71,9 @@ public class Pricecomparison {
                         break; // Found the desired store, no need to continue
                     }
                 }
+
+                logger.log(Level.INFO, "Loaded urls from {0}", storeName);
+
             } else {
                 logger.log(Level.SEVERE, "Unable to load configuration file: {0}", configFile);
             }

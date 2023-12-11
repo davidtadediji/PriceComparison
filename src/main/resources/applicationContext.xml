@@ -16,8 +16,12 @@
     <!-- Hibernate SessionFactory Configuration -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource">
-            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
-                <property name="jndiName" value="java:/comp/env/jdbc/yourDatasource"/>
+            <!-- Direct JDBC configuration using DriverManagerDataSource -->
+            <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/price_comparison"/>
+                <property name="username" value="root"/>
+                <property name="password" value=""/>
             </bean>
         </property>
         <property name="packagesToScan" value="pricecomparison.entity"/>

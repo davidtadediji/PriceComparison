@@ -63,12 +63,12 @@ public class DataAggregator {
             Product product = scraper1.extractProductDetails(response.getHtmlContent());
             if (product != null) {
                 // Log product details...
-                dataAggregatorHelper.storeDataCommonLogic(product, "Amazon", scraper1.getLogoUrl(), url);
+                dataAggregatorHelper.storeDataCommonLogic(product, scraper1.getName(), scraper1.getLogoUrl(), url);
                 logger.info("Amazon data stored successfully.");
             }
         } else {
             // Handle error or log appropriately
-            logger.log(Level.WARNING, "Error accessing Amazon URL: {0}", url);
+            logger.log(Level.WARNING, "Error accessing {0} URL: {1}", new Object[]{scraper1.getName(), url});
         }
     }
 
@@ -80,12 +80,12 @@ public class DataAggregator {
             Price price = scraper1.extractProductPrice(response.getHtmlContent());
             if (price != null) {
                 // Update comparison price
-                dataAggregatorHelper.updateComparisonPrice(price, "Amazon", url);
+                dataAggregatorHelper.updateComparisonPrice(price, scraper1.getName(), url);
                 logger.info("Amazon pricing data stored successfully.");
             }
         } else {
             // Handle error or log appropriately
-            logger.log(Level.WARNING, "Error accessing Amazon URL: {0}", url);
+            logger.log(Level.WARNING, "Error accessing {0} URL: {1}", new Object[]{scraper1.getName(), url});
         }
     }
 
@@ -97,12 +97,12 @@ public class DataAggregator {
             Product product = scraper2.extractProductDetails(response.getHtmlContent());
             if (product != null) {
                 // Log product details...
-                dataAggregatorHelper.storeDataCommonLogic(product, "Aliexpress", scraper2.getLogoUrl(), url);
+                dataAggregatorHelper.storeDataCommonLogic(product, scraper2.getName(), scraper2.getLogoUrl(), url);
                 logger.info("Aliexpress data stored successfully.");
             }
         } else {
             // Handle error or log appropriately
-            logger.log(Level.WARNING, "Error accessing Alixpress URL: {0}", url);
+            logger.log(Level.WARNING, "Error accessing {0} URL: {1}", new Object[]{scraper2.getName(), url});
         }
     }
 
@@ -114,12 +114,12 @@ public class DataAggregator {
             Price price = scraper2.extractProductPrice(response.getHtmlContent());
             if (price != null) {
                 // Update comparison price
-                dataAggregatorHelper.updateComparisonPrice(price, "AliExpress", url);
+                dataAggregatorHelper.updateComparisonPrice(price, scraper2.getName(), url);
                 logger.info("AliExpress pricing data stored successfully.");
             }
         } else {
             // Handle error or log appropriately
-            logger.log(Level.WARNING, "Error accessing AliExpress URL: {0}", url);
+            logger.log(Level.WARNING, "Error accessing {0} URL: {1}", new Object[]{scraper2.getName(), url});
         }
     }
 }

@@ -6,6 +6,7 @@ package pricecomparison.util;
 
 import java.sql.Timestamp;
 import com.github.slugify.Slugify;
+import org.springframework.stereotype.Component;
 import pricecomparison.transferobject.Product;
 import pricecomparison.transferobject.Variation;
 import pricecomparison.transferobject.Property;
@@ -23,6 +24,8 @@ import pricecomparison.transferobject.Price;
  *
  * @author David
  */
+
+@Component
 public class DataAggregatorHelper {
 
     private final ModelRepository modelDao;

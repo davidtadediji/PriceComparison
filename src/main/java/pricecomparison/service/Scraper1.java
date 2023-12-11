@@ -43,6 +43,7 @@ public class Scraper1 implements ScraperInterface {
             String manufacturer = Scraper1Helper.extractProductManufacturer(document);
             List<Variation> variations = Scraper1Helper.extractProductVariations(document);
             List<Property> properties = Scraper1Helper.extractProductProperties(document);
+            logger.log(Level.WARNING, "Extracted product details from {0} URL: {1}", getName());
 
             return new Product(title, description, price, imageUrl, manufacturer, variations, properties);
         } catch (Exception e) {
@@ -71,12 +72,16 @@ public class Scraper1 implements ScraperInterface {
     @Override
     public Response accessScrapingUrl(String url) {
         try {
+            logger.log(Level.INFO, "Scraper url passed: {0}", url);
+            java.util.logging.Logger.getLogger("org.jsoup").setLevel(java.util.logging.Level.ALL);
+
             // Use JSoup to connect to the website and fetch the HTML content
-            Document document = Jsoup.connect(url).get();
+            Document document = Jsoup.connect(url).timeout(5000).get();
 
             // Convert the Document to HTML String
             String htmlContent = document.html();
 
+            logger.log(Level.INFO, "Scraper url accessed: {0}", url);
             // Return the HTML content with a 200 status code (OK)
             return new Response(htmlContent, 200);
         } catch (IOException e) {
