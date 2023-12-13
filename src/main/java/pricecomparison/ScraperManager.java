@@ -85,6 +85,6 @@ public class ScraperManager {
 
     // Method to schedule periodic concurrent pricing scraping for a list of main URLs
     public void schedulePeriodicPricingScraping(List<ModelConfig> modelConfigs, long initialDelay, long period) {
-//        priceScheduler.schedulePeriodicPricingScraping(modelConfigs, initialDelay, period);
+        priceScheduler.schedulePeriodicPricingScraping(modelConfigs, initialDelay, period);
     }
 }

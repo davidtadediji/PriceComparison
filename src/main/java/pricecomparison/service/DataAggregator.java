@@ -44,17 +44,17 @@ public class DataAggregator {
         // Additional business logic and database operations...
     }
     
-//    public void scrapeAndStorePricingData(String url) {
-//        logger.log(Level.INFO, "Scraping and storing pricing data for URL: {0}", url);
-//
-//        if (url.contains("amazon")) {
-//            scrapeAndStoreAmazonPricingData(url);
-//        } else if (url.contains("aliexpress")) {
-//            scrapeAndStoreAliExpressPricingData(url);
-//        }
-//        // Add more conditions for other e-commerce websites...
-//        // Additional business logic and database operations...
-//    }
+    public void scrapeAndStorePricingData(String url) {
+        logger.log(Level.INFO, "Scraping and storing pricing data for URL: {0}", url);
+
+        if (url.contains("amazon")) {
+            scrapeAndStoreAmazonPricingData(url);
+        } else if (url.contains("aliexpress")) {
+            scrapeAndStoreAliExpressPricingData(url);
+        }
+        // Add more conditions for other e-commerce websites...
+        // Additional business logic and database operations...
+    }
     public void scrapeAndStoreAmazonData(String url, String modelName) {
         logger.log(Level.INFO, "Scraping and storing Amazon data for URL: {0}", url);
 

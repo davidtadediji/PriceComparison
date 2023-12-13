@@ -8,34 +8,36 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pricecomparison.ModelConfig;
 import pricecomparison.service.DataAggregator;
+
 
 /**
  *
  * @author David
  */
 
+
 @Component
 public class PriceScrapingScheduler {
 
-    private final DataAggregator dataAggregator;
+    @Autowired
+    private DataAggregator dataAggregator;
 
-    public PriceScrapingScheduler(DataAggregator dataAggregator) {
-        this.dataAggregator = dataAggregator;
-    }
-
-    // Method to schedule periodic concurrent pricing scraping for a list of URLs
-    public void schedulePeriodicPricingScraping(List<String> amazonUrls, List<String> aliexpressUrls, long initialDelay, long period) {
+    // Method to schedule periodic concurrent pricing scraping for a list of main URLs
+    public void schedulePeriodicPricingScraping(List<ModelConfig> modelConfigs, long initialDelay, long period) {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
-        // Schedule tasks for each URL at fixed intervals
-        for (String url : amazonUrls) {
-            scheduler.scheduleAtFixedRate(() -> dataAggregator.scrapeAndStoreAmazonPricingData(url), initialDelay, period, TimeUnit.SECONDS);
-        }
-
-        for (String url : aliexpressUrls) {
-            scheduler.scheduleAtFixedRate(() -> dataAggregator.scrapeAndStoreAliExpressPricingData(url), initialDelay, period, TimeUnit.SECONDS);
+        // Schedule tasks for each model configuration at fixed intervals
+        for (ModelConfig modelConfig : modelConfigs) {
+            for (String url : modelConfig.getStoreUrls()) {
+                scheduler.scheduleAtFixedRate(() -> {
+                    // You can call the original method here if needed
+                    dataAggregator.scrapeAndStorePricingData(url);
+                }, initialDelay, period, TimeUnit.SECONDS);
+            }
         }
 
         // Shut down the scheduler when needed
