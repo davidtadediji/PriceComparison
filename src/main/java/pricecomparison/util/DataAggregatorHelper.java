@@ -24,7 +24,6 @@ import pricecomparison.transferobject.Price;
  *
  * @author David
  */
-
 @Component
 public class DataAggregatorHelper {
 
@@ -41,6 +40,12 @@ public class DataAggregatorHelper {
     }
 
     public Model createAndSaveModel(Product product) {
+        // Check if a model with the same name or URL exists
+        Model existingModel = modelDao.getModelByName(product.getTitle());
+        if (existingModel != null) {
+            return existingModel;
+        }
+        // Create and save the new model
         Model model = new Model();
         model.setName(product.getTitle());
         model.setDescription(product.getDescription());
@@ -49,16 +54,27 @@ public class DataAggregatorHelper {
         model.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         model.setSlug(generateSlug(product.getTitle()));
         modelDao.saveOrUpdateModel(model);
+        modelDao.saveOrUpdateModel(model);
         return model;
     }
 
     public void createAndSaveModelVariations(Product product, Model model) {
+        // Iterate over the variations in the scraped product
         for (Variation variation : product.getVariations()) {
-            ModelVariation modelVariation = new ModelVariation();
-            modelVariation.setModel(model);
-            modelVariation.setVariationName(variation.getName());
-            modelVariation.setVariationValue(variation.getValue());
-            modelVariationDao.saveOrUpdateModelVariation(modelVariation);
+            // Check if a model variation with the same name and value already exists
+            ModelVariation existingVariation = modelVariationDao.getModelVariationByNameAndValue(model.getId(), variation.getName(), variation.getValue());
+
+            if (existingVariation != null) {
+                // Model variation already exists, you may want to update it if needed
+                // For simplicity, this example does not update existing model variations
+            } else {
+                // Model variation does not exist, create and save it
+                ModelVariation modelVariation = new ModelVariation();
+                modelVariation.setModel(model);
+                modelVariation.setVariationName(variation.getName());
+                modelVariation.setVariationValue(variation.getValue());
+                modelVariationDao.saveOrUpdateModelVariation(modelVariation);
+            }
         }
     }
 

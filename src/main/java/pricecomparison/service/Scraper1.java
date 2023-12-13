@@ -30,13 +30,13 @@ public class Scraper1 implements ScraperInterface {
     private static final Logger logger = Logger.getLogger(Scraper1.class.getName());
 
     @Override
-    public Product extractProductDetails(String html) {
+    public Product extractProductDetails(String html, String modelName) {
         try {
             // Extract details using JSoup
             Document document = Jsoup.parse(html);
 
             // Utilize utility functions for extraction
-            String title = Scraper1Helper.extractProductTitle(document);
+            String title = modelName;
             String description = Scraper1Helper.extractProductDescription(document);
             Price price = Scraper1Helper.extractProductPrice(document);
             String imageUrl = Scraper1Helper.extractProductImageUrl(document);

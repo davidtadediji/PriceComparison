@@ -34,17 +34,15 @@ public class Pricecomparison {
         // Retrieve the ScraperManager bean from the context
         ScraperManager scraperManager = context.getBean(ScraperManager.class);
 
-        // Load URLs from the configuration file for each store
-        List<String> amazonUrls = loadUrlsFromConfig("store-config.properties", "Amazon");
-        List<String> aliexpressUrls = loadUrlsFromConfig("store-config.properties", "Aliexpress");
-        // Schedule concurrent scraping for product details for each store
-        scraperManager.scheduleConcurrentScraping(amazonUrls, aliexpressUrls, INITIAL_DELAY, PERIOD);
+        List<ModelConfig> modelConfigs = loadUrlsFromConfig("store-config.properties");
 
+        // Schedule concurrent scraping for product details for each store
+        scraperManager.scheduleConcurrentScraping(modelConfigs, INITIAL_DELAY, PERIOD);
 
     }
 
-    private static List<String> loadUrlsFromConfig(String configFile, String storeName) {
-        List<String> urls = new ArrayList<>();
+    private static List<ModelConfig> loadUrlsFromConfig(String configFile) {
+        List<ModelConfig> modelConfigs = new ArrayList<>();
 
         try ( InputStream input = Pricecomparison.class.getClassLoader().getResourceAsStream(configFile)) {
             Properties prop = new Properties();
@@ -53,26 +51,37 @@ public class Pricecomparison {
             if (input != null) {
                 prop.load(input);
 
-                // Read product URLs for the store
+                // Read model configurations
                 for (int i = 1;; i++) {
-                    String currentStoreName = prop.getProperty("store" + i + ".name");
-                    if (currentStoreName == null) {
-                        break; // No more stores in the configuration
+                    String modelName = prop.getProperty("model" + i + ".name");
+                    if (modelName == null) {
+                        break; // No more models in the configuration
                     }
 
-                    if (currentStoreName.equalsIgnoreCase(storeName)) {
-                        for (int j = 1;; j++) {
-                            String productUrl = prop.getProperty("store" + i + ".product" + j + ".url");
-                            if (productUrl == null) {
-                                break; // No more products for the store
-                            }
-                            urls.add(productUrl);
+                    String mainUrlPlaceholder = prop.getProperty("model" + i + ".mainUrl");
+                    String mainUrl = resolvePlaceholder(mainUrlPlaceholder, prop);
+
+                    List<String> storeUrls = new ArrayList<>();
+                    for (int j = 1;; j++) {
+                        String storeName = prop.getProperty("model" + i + ".store" + j + ".name");
+                        if (storeName == null) {
+                            break; // No more stores for the model
                         }
-                        break; // Found the desired store, no need to continue
+
+                        String storeUrlPlaceholder = prop.getProperty("model" + i + ".store" + j + ".url");
+                        String storeUrl = resolvePlaceholder(storeUrlPlaceholder, prop);
+
+                        // Exclude main URL from store URLs
+                        if (!storeUrl.equals(mainUrl)) {
+                            storeUrls.add(storeUrl);
+                        }
                     }
+
+                    ModelConfig modelConfig = new ModelConfig(mainUrl, modelName, storeUrls);
+                    modelConfigs.add(modelConfig);
                 }
 
-                logger.log(Level.INFO, "Loaded urls from {0}", storeName);
+                logger.log(Level.INFO, "Loaded model configurations");
 
             } else {
                 logger.log(Level.SEVERE, "Unable to load configuration file: {0}", configFile);
@@ -81,6 +90,16 @@ public class Pricecomparison {
             logger.log(Level.SEVERE, "Error reading configuration file", e);
         }
 
-        return urls;
+        return modelConfigs;
     }
+
+    private static String resolvePlaceholder(String placeholder, Properties prop) {
+        // Resolve placeholder recursively until no more placeholders are found
+        while (placeholder != null && placeholder.contains("${")) {
+            String key = placeholder.substring(2, placeholder.indexOf("}"));
+            placeholder = prop.getProperty(key);
+        }
+        return placeholder;
+    }
+
 }

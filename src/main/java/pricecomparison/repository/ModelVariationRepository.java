@@ -30,4 +30,15 @@ public class ModelVariationRepository {
             session.getTransaction().commit();
         }
     }
+    
+     // New method to fetch a model variation by name, value, and model ID
+    public ModelVariation getModelVariationByNameAndValue(int modelId, String variationName, String variationValue) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM ModelVariation WHERE model.id = :modelId AND variationName = :variationName AND variationValue = :variationValue", ModelVariation.class)
+                    .setParameter("modelId", modelId)
+                    .setParameter("variationName", variationName)
+                    .setParameter("variationValue", variationValue)
+                    .uniqueResult();
+        }
+    }
 }

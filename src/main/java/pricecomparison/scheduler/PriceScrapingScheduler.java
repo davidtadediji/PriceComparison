@@ -17,7 +17,6 @@ import pricecomparison.service.DataAggregator;
  */
 
 @Component
-
 public class PriceScrapingScheduler {
 
     private final DataAggregator dataAggregator;

@@ -13,7 +13,7 @@ import pricecomparison.transferobject.Product;
  */
 public interface ScraperInterface {
 
-    Product extractProductDetails(String html);
+    Product extractProductDetails(String html , String modelName);
 
     Response accessScrapingUrl(String url);
 

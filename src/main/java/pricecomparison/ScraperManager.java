@@ -4,13 +4,14 @@
  */
 package pricecomparison;
 
+import java.util.ArrayList;
 import pricecomparison.service.DataAggregator;
 import pricecomparison.scheduler.PriceScrapingScheduler;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,6 @@ import org.springframework.stereotype.Component;
  *
  * @author David
  */
-
-
 @Component
 public class ScraperManager {
 
@@ -37,40 +36,55 @@ public class ScraperManager {
 
     private static final Logger logger = Logger.getLogger(ScraperManager.class.getName());
 
-    // Method to schedule concurrent scraping for product details for a list of URLs
-    public void scheduleConcurrentScraping(List<String> amazonUrls, List<String> aliexpressUrls, long initialDelay, long period) {
-        logger.log(Level.INFO, "Initial scraping begun");
+    // Method to schedule concurrent scraping for product details and periodic pricing scraping for a list of main URLs
+    public void scheduleConcurrentScraping(List<ModelConfig> modelConfigs, long initialDelay, long period) {
+        logger.log(Level.INFO, "Initial product scraping begun");
 
         // Create a thread pool with a fixed number of threads
         int numThreads = Runtime.getRuntime().availableProcessors(); // Adjust the number as needed
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 
         try {
-            // Submit tasks for each URL to the thread pool
-            for (String url : amazonUrls) {
-                executorService.submit(() -> dataAggregator.scrapeAndStoreAmazonData(url));
+            // List to hold CompletableFuture instances
+            List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+            // Submit tasks for each model configuration to the thread pool
+            for (ModelConfig modelConfig : modelConfigs) {
+                CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                    // Scraping and storing product details for the main URL
+                    dataAggregator.scrapeAndStoreData(modelConfig.getMainUrl(), modelConfig.getModelName());
+
+                    // If the main URL is scraped successfully, scrape and store comparison details for other URLs
+                    for (String storeUrl : modelConfig.getStoreUrls()) {
+                        // You can call the original method here if needed
+                        dataAggregator.scrapeAndStoreData(storeUrl, modelConfig.getModelName());
+
+                        // dataAggregator.scrapeAndStoreComparisonDetails(storeUrl, modelConfig.getMainUrl());
+                        // For demonstration purposes, logging a message
+                        logger.log(Level.INFO, "Comparison details for {0} after successful main URL scraping.", storeUrl);
+                    }
+                }, executorService);
+
+                futures.add(future);
             }
 
-            for (String url : aliexpressUrls) {
-                executorService.submit(() -> dataAggregator.scrapeAndStoreAliexpressData(url));
-            }
-
-            // Shut down the executor service and wait for tasks to complete
-            executorService.shutdown();
-            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            // Wait for all CompletableFuture instances to complete
+            CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+            allOf.join();
 
             // If all tasks completed successfully, schedule periodic pricing scraping
-            if (!executorService.isTerminated()) {
-                schedulePeriodicPricingScraping(amazonUrls, aliexpressUrls, initialDelay, period);
+            if (!allOf.isCompletedExceptionally()) {
+                schedulePeriodicPricingScraping(modelConfigs, initialDelay, period);
             }
 
-        } catch (InterruptedException e) {
-            logger.log(Level.SEVERE, "Error waiting for product details scraping to complete", e);
+        } finally {
+            // Always shut down the executor service
+            executorService.shutdown();
         }
     }
 
-    // Method to schedule periodic concurrent pricing scraping for a list of URLs
-    public void schedulePeriodicPricingScraping(List<String> amazonUrls, List<String> aliexpressUrls, long initialDelay, long period) {
-        priceScheduler.schedulePeriodicPricingScraping(amazonUrls, aliexpressUrls, initialDelay, period);
+    // Method to schedule periodic concurrent pricing scraping for a list of main URLs
+    public void schedulePeriodicPricingScraping(List<ModelConfig> modelConfigs, long initialDelay, long period) {
+//        priceScheduler.schedulePeriodicPricingScraping(modelConfigs, initialDelay, period);
     }
 }

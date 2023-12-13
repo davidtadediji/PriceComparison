@@ -33,17 +33,17 @@ public class DataAggregator {
     @Autowired
     private DataAggregatorHelper dataAggregatorHelper;
 
-//    public void scrapeAndStoreData(String url) {
-//        logger.log(Level.INFO, "Scraping and storing data for URL: {0}", url);
-//
-//        if (url.contains("amazon")) {
-//            scrapeAndStoreAmazonData(url);
-//        } else if (url.contains("aliexpress")) {
-//            scrapeAndStoreAliexpressData(url);
-//        }
-//        // Add more conditions for other e-commerce websites...
-//        // Additional business logic and database operations...
-//    }
+    public void scrapeAndStoreData(String url, String modelName) {
+ 
+        if (url.contains("amazon")) {
+            scrapeAndStoreAmazonData(url, modelName);
+        } else if (url.contains("aliexpress")) {
+            scrapeAndStoreAliexpressData(url,modelName);
+        }
+        // Add more conditions for other e-commerce websites...
+        // Additional business logic and database operations...
+    }
+    
 //    public void scrapeAndStorePricingData(String url) {
 //        logger.log(Level.INFO, "Scraping and storing pricing data for URL: {0}", url);
 //
@@ -55,12 +55,12 @@ public class DataAggregator {
 //        // Add more conditions for other e-commerce websites...
 //        // Additional business logic and database operations...
 //    }
-    public void scrapeAndStoreAmazonData(String url) {
+    public void scrapeAndStoreAmazonData(String url, String modelName) {
         logger.log(Level.INFO, "Scraping and storing Amazon data for URL: {0}", url);
 
         Response response = scraper1.accessScrapingUrl(url);
         if (response != null && response.getStatusCode() == 200) {
-            Product product = scraper1.extractProductDetails(response.getHtmlContent());
+            Product product = scraper1.extractProductDetails(response.getHtmlContent(),  modelName);
             if (product != null) {
                 // Log product details...
                 dataAggregatorHelper.storeDataCommonLogic(product, scraper1.getName(), scraper1.getLogoUrl(), url);
@@ -89,12 +89,12 @@ public class DataAggregator {
         }
     }
 
-    public void scrapeAndStoreAliexpressData(String url) {
+    public void scrapeAndStoreAliexpressData(String url, String modelName) {
         logger.log(Level.INFO, "Scraping and storing Aliexpress data for URL: {0}", url);
 
         Response response = scraper2.accessScrapingUrl(url);
         if (response != null && response.getStatusCode() == 200) {
-            Product product = scraper2.extractProductDetails(response.getHtmlContent());
+            Product product = scraper2.extractProductDetails(response.getHtmlContent(), modelName);
             if (product != null) {
                 // Log product details...
                 dataAggregatorHelper.storeDataCommonLogic(product, scraper2.getName(), scraper2.getLogoUrl(), url);

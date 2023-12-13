@@ -31,19 +31,20 @@ public class Scraper2 implements ScraperInterface {
     private static final Logger logger = Logger.getLogger(Scraper2.class.getName());
 
     @Override
-    public Product extractProductDetails(String html) {
+    public Product extractProductDetails(String html, String modelName) {
         try {
             // Extract details using JSoup
             Document document = Jsoup.parse(html);
 
             // Utilize utility functions for extraction
-            String title = Scraper2Helper.extractProductTitle(document);
+            String title = modelName;
             String description = Scraper2Helper.extractProductDescription(document);
             Price price = Scraper2Helper.extractProductPrice(document);
             String imageUrl = Scraper2Helper.extractProductImageUrl(document);
             String manufacturer = Scraper2Helper.extractProductManufacturer(document);
             List<Variation> variations = Scraper2Helper.extractProductVariations(document);
-            List<Property> properties = Scraper1Helper.extractProductProperties(document);
+            List<Property> properties = Scraper2Helper.extractProductProperties(document);
+            logger.log(Level.WARNING, "Extracted product details from {0} URL: {1}", getName());
 
             return new Product(title, description, price, imageUrl, manufacturer, variations, properties);
         } catch (Exception e) {
@@ -72,12 +73,16 @@ public class Scraper2 implements ScraperInterface {
     @Override
     public Response accessScrapingUrl(String url) {
         try {
+            logger.log(Level.INFO, "Scraper url passed: {0}", url);
+            java.util.logging.Logger.getLogger("org.jsoup").setLevel(java.util.logging.Level.ALL);
+
             // Use JSoup to connect to the website and fetch the HTML content
-            Document document = Jsoup.connect(url).get();
+            Document document = Jsoup.connect(url).timeout(5000).get();
 
             // Convert the Document to HTML String
             String htmlContent = document.html();
 
+            logger.log(Level.INFO, "Scraper url accessed: {0}", url);
             // Return the HTML content with a 200 status code (OK)
             return new Response(htmlContent, 200);
         } catch (IOException e) {

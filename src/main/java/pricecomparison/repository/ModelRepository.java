@@ -29,4 +29,13 @@ public class ModelRepository {
             session.getTransaction().commit();
         }
     }
+    
+     // New method to fetch a model by its name
+    public Model getModelByName(String modelName) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Model WHERE name = :modelName", Model.class)
+                    .setParameter("modelName", modelName)
+                    .uniqueResult();
+        }
+    }
 }
