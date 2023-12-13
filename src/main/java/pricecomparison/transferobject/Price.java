@@ -11,21 +11,21 @@ package pricecomparison.transferobject;
 
 public class Price {
 
-    private int amount;
+    private double amount;
     private String currency;
 
-    public Price(int amount, String currency) {
+    public Price(double amount, String currency) {
         this.amount = amount;
         this.currency = currency;
     }
 
     // Getters and setters for each field
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

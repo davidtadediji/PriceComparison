@@ -21,7 +21,7 @@ public class Comparison implements Serializable {
     private Integer id;
 
     private String url;
-    private Integer amount;
+    private Double amount;
     private String currency;
     private String store;
     private String storeLogoUrl;
@@ -44,7 +44,7 @@ public class Comparison implements Serializable {
         this.id = id;
     }
 
-    public Comparison(Integer id, String url, Integer amount, String currency, String store, String storeLogoUrl, Timestamp lastUpdated, Model model, ModelVariation modelVariation) {
+    public Comparison(Integer id, String url, Double amount, String currency, String store, String storeLogoUrl, Timestamp lastUpdated, Model model, ModelVariation modelVariation) {
         this.id = id;
         this.url = url;
         this.amount = amount;
@@ -72,11 +72,11 @@ public class Comparison implements Serializable {
         this.url = url;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

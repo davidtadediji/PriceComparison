@@ -19,47 +19,65 @@ import pricecomparison.transferobject.Property;
  */
 public class Scraper1Helper {
 
-    public static String extractProductCurrency(Document document) {
-        Element currencyElement = document.select("div.myClass").first();
-        return currencyElement != null ? currencyElement.text() : null;
-    }
-
     public static String extractProductTitle(Document document) {
         return document != null ? document.title() : null;
     }
 
     public static String extractProductDescription(Document document) {
         if (document != null) {
-            Elements paragraphs = document.select("p");
-            return paragraphs != null ? paragraphs.text() : null;
+            // Use a more specific selector to target the product description
+            Element productDescriptionElement = document.select("h2:contains(Product Description) + div#productDescription").first();
+
+            return productDescriptionElement != null ? productDescriptionElement.text() : null;
         }
         return null;
     }
 
     public static Price extractProductPrice(Document document) {
         if (document != null) {
-            String priceString = document.select(".price-class").text();
-            String currency = extractProductCurrency(document);
+            // Select the specific price element based on the class
+            Element priceElement = document.select("span.a-price.a-text-price.header-price.a-size-base.a-text-normal[data-a-size='b'][data-a-color='price'] span.a-offscreen").first();
 
-            // Parse the priceString to an integer or double based on your requirements
-            int price = Integer.parseInt(priceString);
+            if (priceElement != null) {
+                // Extract the price string
+                String priceString = priceElement.text();
+                System.out.println(priceString); // string is $259.00
 
-            return new Price(price, currency);
+                // Extract the currency
+                String currency = extractCurrency(priceString);
+
+                // Remove non-numeric characters and parse to a double
+                double price = Double.parseDouble(priceString.replaceAll("[^0-9.]", ""));
+
+                return new Price(price, currency);
+            }
         }
-        return new Price(0, null);
+
+        return new Price(0.0, null);
+    }
+
+    private static String extractCurrency(String priceString) {
+        // Assuming the currency symbol is the first character in the price string
+        return priceString.substring(0, 1);
     }
 
     public static String extractProductImageUrl(Document document) {
         if (document != null) {
-            Elements links = document.select("a[href]");
-            return links != null && !links.isEmpty() ? links.first().attr("href") : null;
+            // Select the specific image element based on its class
+            Element imageElement = document.select("img.a-dynamic-image").first();
+
+            // Check if the image element is found
+            if (imageElement != null) {
+                // Get the value of the 'src' attribute from the image element
+                return imageElement.attr("src");
+            }
         }
         return null;
     }
 
     public static String extractProductManufacturer(Document document) {
         if (document != null) {
-            Element manufacturerElement = document.select("div.myClass").first();
+            Element manufacturerElement = document.select("tr.po-brand td.a-span9 span.a-size-base").first();
             return manufacturerElement != null ? manufacturerElement.text() : null;
         }
         return null;
