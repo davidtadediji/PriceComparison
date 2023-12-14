@@ -82,8 +82,8 @@ public class DataAggregatorHelper {
         for (Property property : product.getProperties()) {
             ModelProperty modelProperty = new ModelProperty();
             modelProperty.setModel(model);
-            modelProperty.setPropertyKey(property.getPropertyKey());
-            modelProperty.setPropertyValue(property.getPropertyValue());
+            modelProperty.setPropertyKey(property.getKey());
+            modelProperty.setPropertyValue(property.getValue());
             modelPropertyDao.saveOrUpdateModelProperty(modelProperty);
         }
     }

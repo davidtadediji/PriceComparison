@@ -12,8 +12,11 @@ import pricecomparison.util.Scraper1Helper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import pricecomparison.transferobject.Property;
+import pricecomparison.transferobject.Variation;
 
 /**
  *
@@ -54,6 +57,44 @@ class Scraper1HelperTest {
         assertEquals("Apple", manufacturer);
     }
     // Add tests for variations and properties as needed...
+
+    @Test
+    void testExtractProductVariations() throws IOException {
+        Document document = Jsoup.parse(readHtmlFromFile(HTML_FILE_PATH));
+        List<Variation> variations = Scraper1Helper.extractProductVariations(document);
+
+        // Assuming variations are present in the HTML
+        assertEquals(3, variations.size());
+
+        Variation firstVariation = variations.get(0);
+        assertEquals("variation_size_name", firstVariation.getName());
+        assertEquals("64GB", firstVariation.getValue());
+
+        Variation secondVariation = variations.get(1);
+        assertEquals("variation_size_name", secondVariation.getName());
+        assertEquals("128GB", secondVariation.getValue());
+
+        Variation thirdVariation = variations.get(2);
+        assertEquals("variation_size_name", thirdVariation.getName());
+        assertEquals("256GB", thirdVariation.getValue());
+    }
+
+    @Test
+    void testExtractProductProperties() throws IOException {
+        Document document = Jsoup.parse(readHtmlFromFile(HTML_FILE_PATH));
+        List<Property> properties = Scraper1Helper.extractProductProperties(document);
+
+        // Assuming properties are present in the HTML
+        assertEquals(24, properties.size());
+
+        Property firstProperty = properties.get(0);
+        assertEquals("Wireless Carrier", firstProperty.getKey());
+        assertEquals("Unlocked", firstProperty.getValue());
+
+        Property lastProperty = properties.get(properties.size() - 1);
+        assertEquals("Ram Memory Installed Size", lastProperty.getKey());
+        assertEquals("4 GB", lastProperty.getValue());
+    }
 
     private String readHtmlFromFile(String filePath) throws IOException {
         return Files.readString(Path.of(filePath));

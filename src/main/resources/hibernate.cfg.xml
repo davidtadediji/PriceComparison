@@ -31,7 +31,8 @@
 
         <!-- Mention annotated class packages -->
         <mapping class="pricecomparison.entity.Model"/>
-        <mapping class="pricecomparison.entity.ModelVariation"/>
+        <mapping class="pricecomparison.entity.ModelVariation"/>        
+        <mapping class="pricecomparison.entity.ModelProperty"/>
         <mapping class="pricecomparison.entity.Comparison"/>
         
     </session-factory>

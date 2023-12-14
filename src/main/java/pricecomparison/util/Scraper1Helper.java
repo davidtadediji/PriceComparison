@@ -19,10 +19,6 @@ import pricecomparison.transferobject.Property;
  */
 public class Scraper1Helper {
 
-    public static String extractProductTitle(Document document) {
-        return document != null ? document.title() : null;
-    }
-
     public static String extractProductDescription(Document document) {
         if (document != null) {
             // Use a more specific selector to target the product description
@@ -41,7 +37,6 @@ public class Scraper1Helper {
             if (priceElement != null) {
                 // Extract the price string
                 String priceString = priceElement.text();
-                System.out.println(priceString); // string is $259.00
 
                 // Extract the currency
                 String currency = extractCurrency(priceString);
@@ -86,10 +81,10 @@ public class Scraper1Helper {
     public static List<Variation> extractProductVariations(Document document) {
         List<Variation> variations = new ArrayList<>();
         if (document != null) {
-            Elements variationElements = document.select(".variation-class");
+            Elements variationElements = document.select("#variation_size_name ul.a-declarative li");
             for (Element variationElement : variationElements) {
-                String name = variationElement.select(".name-class").text();
-                String value = variationElement.select(".value-class").text();
+                String name = "variation_size_name";
+                String value = variationElement.select(".twisterTextDiv p.a-size-base").text();
                 variations.add(new Variation(name, value));
             }
         }
@@ -99,13 +94,15 @@ public class Scraper1Helper {
     public static List<Property> extractProductProperties(Document document) {
         List<Property> properties = new ArrayList<>();
         if (document != null) {
-            Elements propertyElements = document.select(".property-class");
-            for (Element propertyElement : propertyElements) {
-                String name = propertyElement.select(".name-class").text();
-                String value = propertyElement.select(".value-class").text();
+            Elements propertyRows = document.select("#productDetails_expanderTables_depthLeftSections table.a-keyvalue tbody tr");
+
+            for (Element row : propertyRows) {
+                String name = row.select("th.a-color-secondary").text();
+                String value = row.select("td.a-size-base").text();
                 properties.add(new Property(name, value));
             }
         }
         return properties;
     }
+
 }

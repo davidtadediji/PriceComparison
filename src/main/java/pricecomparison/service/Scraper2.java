@@ -44,7 +44,7 @@ public class Scraper2 implements ScraperInterface {
             String manufacturer = Scraper2Helper.extractProductManufacturer(document);
             List<Variation> variations = Scraper2Helper.extractProductVariations(document);
             List<Property> properties = Scraper2Helper.extractProductProperties(document);
-            logger.log(Level.WARNING, "Extracted product details from {0} URL: {1}", getName());
+            logger.log(Level.INFO, "Extracted product details from {0} URL: {1}", getName());
 
             return new Product(title, description, price, imageUrl, manufacturer, variations, properties);
         } catch (Exception e) {

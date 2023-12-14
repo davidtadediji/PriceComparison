@@ -27,6 +27,9 @@
         <property name="packagesToScan" value="pricecomparison.entity"/>
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
     </bean>
+<bean id="modelRepository" class="pricecomparison.repository.ModelRepository">
+    <property name="sessionFactory" ref="sessionFactory"/>
+</bean>
 
     <!-- Transaction Manager -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">

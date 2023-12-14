@@ -8,33 +8,30 @@ package pricecomparison.transferobject;
  *
  * @author David
  */
-
 public class Property {
-    
-    private String propertyKey;
-    private String propertyValue;
 
+    private String key;
+    private String value;
     // Constructors, getters, and setters
 
-    public Property(String propertyKey, String propertyValue) {
-        this.propertyKey = propertyKey;
-        this.propertyValue = propertyValue;
-    }
-    
-
-    public String getPropertyKey() {
-        return propertyKey;
+    public Property(String key, String value) {
+        this.key = key;
+        this.value = value;
     }
 
-    public void setPropertyKey(String propertyKey) {
-        this.propertyKey = propertyKey;
+    public String getKey() {
+        return key;
     }
 
-    public String getPropertyValue() {
-        return propertyValue;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public void setPropertyValue(String propertyValue) {
-        this.propertyValue = propertyValue;
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

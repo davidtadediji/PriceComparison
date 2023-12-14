@@ -20,6 +20,7 @@ public class ModelRepository {
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+         System.out.println("SessionFactory set: " + sessionFactory);
     }
 
     public void saveOrUpdateModel(Model model) {
@@ -33,7 +34,7 @@ public class ModelRepository {
      // New method to fetch a model by its name
     public Model getModelByName(String modelName) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM Model WHERE name = :modelName", Model.class)
+            return session.createQuery("FROM pricecomparison.entity.Model WHERE name = :modelName", Model.class)
                     .setParameter("modelName", modelName)
                     .uniqueResult();
         }
