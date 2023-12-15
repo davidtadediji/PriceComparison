@@ -34,6 +34,8 @@ public class Scraper1 implements ScraperInterface {
         try {
             // Extract details using JSoup
             Document document = Jsoup.parse(html);
+            
+            System.out.println(document);
 
             // Utilize utility functions for extraction
             String title = modelName;
