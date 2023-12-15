@@ -17,12 +17,13 @@ import pricecomparison.entity.Model;
  * @author David
  */
 @Repository
+
 public class ComparisonRepository {
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
-    // Constructor with Dependency Injection
-    public ComparisonRepository(SessionFactory sessionFactory) {
+    // Ensure the setter method has the correct parameter type
+    public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -34,7 +35,7 @@ public class ComparisonRepository {
         }
     }
 
-    public Comparison getComparisonById(Integer id) {
+    public Comparison getComparisonById(Long id) {
         try ( Session session = sessionFactory.openSession()) {
             return session.get(Comparison.class, id);
         }

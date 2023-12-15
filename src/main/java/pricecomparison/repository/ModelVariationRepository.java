@@ -13,12 +13,12 @@ import pricecomparison.entity.ModelVariation;
  *
  * @author David
  */
-
 @Repository
 public class ModelVariationRepository {
 
     private SessionFactory sessionFactory;
 
+    // Ensure the setter method has the correct parameter type
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -30,10 +30,10 @@ public class ModelVariationRepository {
             session.getTransaction().commit();
         }
     }
-    
-     // New method to fetch a model variation by name, value, and model ID
-    public ModelVariation getModelVariationByNameAndValue(int modelId, String variationName, String variationValue) {
-        try (Session session = sessionFactory.openSession()) {
+
+    // New method to fetch a model variation by name, value, and model ID
+    public ModelVariation getModelVariationByNameAndValue(Long modelId, String variationName, String variationValue) {
+        try ( Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM ModelVariation WHERE model.id = :modelId AND variationName = :variationName AND variationValue = :variationValue", ModelVariation.class)
                     .setParameter("modelId", modelId)
                     .setParameter("variationName", variationName)

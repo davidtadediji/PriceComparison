@@ -19,7 +19,7 @@
             <!-- Direct JDBC configuration using DriverManagerDataSource -->
             <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
                 <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/price_comparison"/>
+                <property name="url" value="jdbc:mysql://127.0.0.1:3306/price_comparison"/>
                 <property name="username" value="root"/>
                 <property name="password" value=""/>
             </bean>
@@ -27,10 +27,18 @@
         <property name="packagesToScan" value="pricecomparison.entity"/>
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
     </bean>
-<bean id="modelRepository" class="pricecomparison.repository.ModelRepository">
-    <property name="sessionFactory" ref="sessionFactory"/>
-</bean>
-
+    <bean id="modelRepository" class="pricecomparison.repository.ModelRepository">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="modelVariationRepository" class="pricecomparison.repository.ModelVariationRepository">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+       <bean id="modelPropertyRepository" class="pricecomparison.repository.ModelPropertyRepository">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="comparisonRepository" class="pricecomparison.repository.ComparisonRepository">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     <!-- Transaction Manager -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>

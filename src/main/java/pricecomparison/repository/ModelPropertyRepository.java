@@ -8,11 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import pricecomparison.entity.ModelProperty;
+
 /**
  *
  * @author David
  */
-
 
 @Repository
 public class ModelPropertyRepository {
@@ -24,7 +24,7 @@ public class ModelPropertyRepository {
     }
 
     public void saveOrUpdateModelProperty(ModelProperty modelProperty) {
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.saveOrUpdate(modelProperty);
             session.getTransaction().commit();
