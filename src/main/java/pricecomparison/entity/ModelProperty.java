@@ -5,20 +5,20 @@
 package pricecomparison.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 /**
  *
  * @author David
  */
 
-
 @Entity
-@Table(name = "model_properties")
+@Table(name = "model_property")
 public class ModelProperty implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "model_id", nullable = false)
@@ -33,18 +33,22 @@ public class ModelProperty implements Serializable {
     public ModelProperty() {
     }
 
-    public ModelProperty(Integer id, Model model, String propertyKey, String propertyValue) {
+    public ModelProperty(Long id) {
+        this.id = id;
+    }
+
+    public ModelProperty(Long id, Model model, String propertyKey, String propertyValue) {
         this.id = id;
         this.model = model;
         this.propertyKey = propertyKey;
         this.propertyValue = propertyValue;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

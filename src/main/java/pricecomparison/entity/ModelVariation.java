@@ -4,21 +4,20 @@
  */
 package pricecomparison.entity;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import javax.persistence.*;
 
 /**
  *
  * @author David
  */
-
 @Entity
-@Table(name = "model_variations")
+@Table(name = "model_variation")
 public class ModelVariation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "model_id")
@@ -33,22 +32,22 @@ public class ModelVariation implements Serializable {
     public ModelVariation() {
     }
 
-    public ModelVariation(Integer id) {
+    public ModelVariation(Long id) {
         this.id = id;
     }
 
-    public ModelVariation(Integer id, Model model, String variationName, String variationValue) {
+    public ModelVariation(Long id, Model model, String variationName, String variationValue) {
         this.id = id;
         this.model = model;
         this.variationName = variationName;
         this.variationValue = variationValue;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

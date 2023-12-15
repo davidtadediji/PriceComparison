@@ -5,7 +5,7 @@
 package pricecomparison.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -18,11 +18,13 @@ public class Model implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
     private String description;
     private String manufacturer;
+
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Column(name = "created_at")
@@ -30,18 +32,14 @@ public class Model implements Serializable {
 
     private String slug;
 
-//    @Column(columnDefinition = "jsonb")
-//    private String properties;
-//    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL)
-//    private List<ModelVariation> variations;
     public Model() {
     }
 
-    public Model(Integer id) {
+    public Model(Long id) {
         this.id = id;
     }
 
-    public Model(Integer id, String name, String description, String manufacturer, String imageUrl, Timestamp createdAt, String slug) {
+    public Model(Long id, String name, String description, String manufacturer, String imageUrl, Timestamp createdAt, String slug) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -51,11 +49,11 @@ public class Model implements Serializable {
         this.slug = slug;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -107,18 +105,4 @@ public class Model implements Serializable {
         this.slug = slug;
     }
 
-//    public String getProperties() {
-//        return properties;
-//    }
-//
-//    public void setProperties(String properties) {
-//        this.properties = properties;
-//    }
-//    public List<ModelVariation> getVariations() {
-//        return variations;
-//    }
-//
-//    public void setVariations(List<ModelVariation> variations) {
-//        this.variations = variations;
-//    }
 }

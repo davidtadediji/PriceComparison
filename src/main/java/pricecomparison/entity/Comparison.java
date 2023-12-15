@@ -5,7 +5,7 @@
 package pricecomparison.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -18,12 +18,14 @@ public class Comparison implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String url;
     private Double amount;
     private String currency;
     private String store;
+
+    @Column(name = "store_logo_url")
     private String storeLogoUrl;
 
     @Column(name = "last_updated")
@@ -40,11 +42,11 @@ public class Comparison implements Serializable {
     public Comparison() {
     }
 
-    public Comparison(Integer id) {
+    public Comparison(Long id) {
         this.id = id;
     }
 
-    public Comparison(Integer id, String url, Double amount, String currency, String store, String storeLogoUrl, Timestamp lastUpdated, Model model, ModelVariation modelVariation) {
+    public Comparison(Long id, String url, Double amount, String currency, String store, String storeLogoUrl, Timestamp lastUpdated, Model model, ModelVariation modelVariation) {
         this.id = id;
         this.url = url;
         this.amount = amount;
@@ -56,11 +58,11 @@ public class Comparison implements Serializable {
         this.modelVariation = modelVariation;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
