@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jsoup.Connection;
 import org.springframework.stereotype.Service;
 import pricecomparison.transferobject.Price;
 import pricecomparison.transferobject.Property;
@@ -34,7 +35,7 @@ public class Scraper1 implements ScraperInterface {
         try {
             // Extract details using JSoup
             Document document = Jsoup.parse(html);
-            
+
             System.out.println(document);
 
             // Utilize utility functions for extraction
@@ -71,19 +72,32 @@ public class Scraper1 implements ScraperInterface {
         }
     }
 
-    @Override
     public Response accessScrapingUrl(String url) {
         try {
-            logger.log(Level.INFO, "Scraper url passed: {0}", url);
-            java.util.logging.Logger.getLogger("org.jsoup").setLevel(java.util.logging.Level.ALL);
+            // Set up an array of user agents to rotate
+            String[] userAgents = {
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/91.0.864.59 Safari/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",};
 
-            // Use JSoup to connect to the website and fetch the HTML content
-            Document document = Jsoup.connect(url).timeout(5000).get();
+            // Randomly select a user agent
+            String userAgent = userAgents[(int) (Math.random() * userAgents.length)];
+
+            // Set up the connection with the selected user agent
+            Connection connection = Jsoup.connect(url)
+                    .userAgent(userAgent)
+                    .timeout(5000);
+
+            // Connect to the website and fetch the HTML content
+            Document document = connection.get();
 
             // Convert the Document to HTML String
             String htmlContent = document.html();
 
             logger.log(Level.INFO, "Scraper url accessed: {0}", url);
+
             // Return the HTML content with a 200 status code (OK)
             return new Response(htmlContent, 200);
         } catch (IOException e) {
