@@ -11,6 +11,8 @@ import pricecomparison.transferobject.Variation;
 import pricecomparison.transferobject.Property;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import pricecomparison.transferobject.Price;
 
 /**
@@ -18,11 +20,6 @@ import pricecomparison.transferobject.Price;
  * @author David
  */
 public class Scraper2Helper {
-
-    public static String extractProductCurrency(Document document) {
-        Element currencyElement = document.select("div.myClass").first();
-        return currencyElement != null ? currencyElement.text() : null;
-    }
 
     public static String extractProductTitle(Document document) {
         return document != null ? document.title() : null;
@@ -36,17 +33,51 @@ public class Scraper2Helper {
         return null;
     }
 
-  public static Price extractProductPrice(Document document) {
+    public static Price extractProductPrice(Document document) {
         if (document != null) {
-            String priceString = document.select(".price-class").text();
-            String currency = extractProductCurrency(document);
+            // Extract the content of the script tag containing window.runParams
+            Element scriptElement = document.select("script:containsData(window.runParams)").first();
 
-            // Parse the priceString to an integer or double based on your requirements
-            int price = Integer.parseInt(priceString);
+            if (scriptElement != null) {
+                // Extract the content of the script
+                String scriptContent = scriptElement.data();
 
-            return new Price(price, currency);
+                // Find the start and end index of window.runParams
+                int startIndex = scriptContent.indexOf("{");
+                int endIndex = scriptContent.lastIndexOf("}");
+
+                if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {
+                    // Extract the substring between { and }
+                    String runParamsSubstring = scriptContent.substring(startIndex, endIndex + 1);
+
+                    // Now you can parse runParamsSubstring or process it further
+                    System.out.println("runParamsSubstring: " + runParamsSubstring);
+
+                    // Process runParamsSubstring to extract relevant information
+                    // For simplicity, you can use regular expressions or other string manipulation
+                    // Example: Extract formattedAmount and currency using regex
+                    String formattedAmount = extractValue(runParamsSubstring, "formattedAmount\":\"(.*?)\"");
+                    String currency = extractValue(runParamsSubstring, "currency\":\"(.*?)\"");
+
+                    // Convert formattedAmount to a double (remove non-numeric characters)
+                    double price = Double.parseDouble(formattedAmount.replaceAll("[^0-9.]", ""));
+
+                    return new Price(price, currency);
+                }
+            }
         }
-        return new Price(0, null);
+
+        return new Price(0.0, null);
+    }
+
+    // Helper method to extract values using regex
+    private static String extractValue(String input, String pattern) {
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(input);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     public static String extractProductImageUrl(Document document) {
